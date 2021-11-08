@@ -1,77 +1,53 @@
 require('./style.css');
-const { Board, Proximity } = require("johnny-five");
+const { Board, Sensor, Proximity, Button } = require("johnny-five");
 const board = new Board({
     repl: false
 });
 
-let currentMoney = 0;
-let hasHappend = "nietgebeurd";
+const $rot1 = document.querySelector(".rot1")
+const $rot2 = document.querySelector(".rot2")
+const $rot3 = document.querySelector(".rot3")
+const $rot4 = document.querySelector(".rot4")
 
+const $dis1 = document.querySelector(".dis1")
+const $button1 = document.querySelector(".button1")
 
 board.on("ready", () => {
-    //board.on("ready", () => init());
-    const proximity = new Proximity({
-        controller: "HCSR04",
-        pin: 7
+    const potentiometer1 = new Sensor("A5");
+    potentiometer1.on("change", () => {
+        const {value, raw} = potentiometer1;
+        $rot1.textContent = raw;
     });
 
-    proximity.on("change", () => {
-        const { centimeters } = proximity;
-        checkBudget(centimeters)
+    const potentiometer2 = new Sensor("A4");
+    potentiometer2.on("change", () => {
+        const {value, raw} = potentiometer2;
+        $rot2.textContent = raw;
     });
+
+    const potentiometer3 = new Sensor("A2");
+    potentiometer3.on("change", () => {
+        const {value, raw} = potentiometer3;
+        $rot3.textContent = raw;
+    });
+
+    const potentiometer4 = new Sensor("A0");
+    potentiometer4.on("change", () => {
+        const {value, raw} = potentiometer4;
+        $rot4.textContent = raw;
+    });
+
+    const proximity1 = new Proximity({controller: "HCSR04",pin: 7});
+    proximity1.on("change", () => {
+        const { centimeters } = proximity1;
+        $dis1.textContent = centimeters
+    });
+
+    const button = new Button(12);
+
+    button.on("down", function() {
+        console.log("down");
+        $button1.textContent = "yes"
+    });
+
 });
-
-const checkBudget = (newValue) => {
-
-    const geld = document.querySelector(".geld")
-    if (newValue > 30 && hasHappend == "nietgebeurd") {
-        console.log("idle")
-    }
-    else if (newValue < 23 && newValue > 14 && hasHappend == "nietgebeurd") {
-        hasHappend = "gebeurd"
-        currentMoney = currentMoney + 500;
-        console.log(500);
-        geld.textContent = `€${currentMoney}`;
-        setTimeout(() => { hasHappend = "nietgebeurd" }, 5000);
-    } else if (newValue < 14 && newValue > 6 && hasHappend == "nietgebeurd") {
-        hasHappend = "gebeurd"
-        currentMoney = currentMoney + 100;
-        console.log(100);
-        geld.textContent = `€${currentMoney}`;
-        setTimeout(() => { hasHappend = "nietgebeurd" }, 5000);
-    }
-    else if (newValue < 6 && hasHappend == "nietgebeurd") {
-        hasHappend = "gebeurd"
-        currentMoney = currentMoney + 250;
-        console.log(250);
-        geld.textContent = `€${currentMoney}`;
-        setTimeout(() => { hasHappend = "nietgebeurd" }, 5000);
-    }
-}
-
-const clock = () => {
-    const tijd = document.querySelector(".tijd")
-    const game = document.querySelector(".game")
-    const rick = document.querySelector(".rick")
-    var myTimer = setInterval(myClock, 1000);
-    var c = 60;
-    function myClock() {
-        --c;
-        var minutes = Math.floor(c / 60);
-        var seconds = c - minutes * 60;
-        tijd.innerHTML = (`${minutes}:${seconds}`)
-        if (c == 0) {
-            clearInterval(myTimer);
-            game.style.display = "none"
-            rick.style.display = "block"
-            
-        }
-    }
-}
-const init = () => {
-
-};
-
-init();
-clock();
-
