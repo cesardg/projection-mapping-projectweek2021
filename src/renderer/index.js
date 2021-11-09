@@ -16,25 +16,29 @@ board.on("ready", () => {
     const potentiometer1 = new Sensor("A5");
     potentiometer1.on("change", () => {
         const {value, raw} = potentiometer1;
-        $rot1.textContent = raw;
+        $rot1.textContent = value;
+        document.querySelector(".img1").style.transform = `rotate(${value/2.84}deg)`;
     });
 
     const potentiometer2 = new Sensor("A4");
     potentiometer2.on("change", () => {
         const {value, raw} = potentiometer2;
-        $rot2.textContent = raw;
+        $rot2.textContent = value;
+        document.querySelector(".img2").style.transform = `rotate(${value/2.84}deg)`;
     });
 
     const potentiometer3 = new Sensor("A2");
     potentiometer3.on("change", () => {
         const {value, raw} = potentiometer3;
-        $rot3.textContent = raw;
+        $rot3.textContent = value;
+        document.querySelector(".img3").style.transform = `rotate(${value/2.84}deg)`;
     });
 
     const potentiometer4 = new Sensor("A0");
     potentiometer4.on("change", () => {
         const {value, raw} = potentiometer4;
-        $rot4.textContent = raw;
+        $rot4.textContent = value;
+         document.querySelector(".img4").style.transform = `rotate(${value/2.84}deg)`;
     });
 
     const proximity1 = new Proximity({controller: "HCSR04",pin: 7});
@@ -51,3 +55,4 @@ board.on("ready", () => {
     });
 
 });
+

@@ -3,9 +3,49 @@
     color: white;
     height: 100vh;
     width: 100vw;
+    display: flex;
 }
 
 body, html, p{
     margin: 0;
     padding: 0;
+}
+
+.stats{
+    display: block;
+    width: 20rem;
+}
+
+.circles{
+    display: grid;
+}
+
+
+img{
+    height: 100vh;
+    width: auto;
+    transition: .1s all ease;
+    display: block;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+
+.img1{
+    z-index: 1;
+}
+
+
+.img2{
+    z-index: 2;
+}
+
+
+.img3{
+    z-index: 3;
+}
+
+
+.img4{
+    z-index: 4;
 }
