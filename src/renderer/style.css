@@ -1,27 +1,68 @@
 .container{
-    background-color: black;
-    color: white;
     height: 100vh;
-    width: 100vw;
-    display: flex;
+    width: 100vh;
+    display: grid;
+    margin: auto;
+    transform: scale(1.019);
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 body, html, p{
     margin: 0;
     padding: 0;
+    background-color: black;
 }
 
 .stats{
-    display: block;
-    width: 20rem;
+    display: none;
+    width: 0rem;
+}
+
+.instructions{
+    display: grid;
+    grid-column: 1;
+    grid-row: 1;
+    transform: rotateZ(45deg);
+}
+
+
+.instructions > *{
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: spincounterclockwise 10s linear infinite;
+}
+
+
+.intro__bg{
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: 50%;
+    animation: spinclockwise 100s linear infinite;
 }
 
 .circles{
     display: grid;
     width: 100vh;
     height: 100vh;
+    z-index: 2;
+    grid-row: 1;
+    grid-column: 1;
+    transition: transform 1s ease;
 }
 
+.intro{
+    z-index: 4;
+    display: grid;
+    width: 100vh;
+    height: 100vh;
+    grid-row: 1;
+    grid-column: 1;
+    transition: opacity 1s ease;
+}
 
 img{
     height: 100vh;
@@ -31,8 +72,9 @@ img{
 }
 
 .circles > * {
-
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-row: 1;
     grid-column: 1;
     transition: all .1s linear;
@@ -41,35 +83,91 @@ img{
 }
 
 .img1-container{
-    z-index: 1;
-    animation: spin 20s linear infinite;
+    animation: spinclockwise 20s linear infinite;
 }
 
-@keyframes spin {
+@keyframes spinclockwise {
     100%{
         transform: rotateZ(360deg);
     }
 }
 
-
-.img2-container{
-    z-index: 2;
-}
-
-
-.img3-container{
-    z-index: 3;
-}
-
-
-.img4-container{
-    z-index: 4;
-}
-
-.img5-container{
-    z-index: 5;
+@keyframes spincounterclockwise {
+    100%{
+        transform: rotateZ(-360deg);
+    }
 }
 
 .flipped{
     transform: rotateY(180deg);
+}
+
+   .knob {
+      width: 10.5vh;
+      height: 10.5vh;
+      background: linear-gradient(white, black);
+      border-radius: 50%;
+      background-image: url('/knob-txt.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .knob01 {
+      margin: 0 auto;
+      align-self: flex-start;
+    }
+
+    .knob02 {
+      margin-top: 44.5vh;
+      margin-right: .2rem;
+      margin-left: auto;
+      align-self: flex-start;
+    }
+
+    .knob03 {
+      margin: 0 auto;
+      margin-bottom: .2rem;
+      margin-left: 45.1vh;
+      align-self: flex-end;
+    }
+
+    .knob04 {
+      margin-bottom: .5rem;
+      margin-left: .2rem;
+      margin-right: auto;
+      align-self: center;
+    }
+
+    .btn__instruction {
+      width: 50vh;
+      height: 50vh;
+      margin: auto;
+      align-self: center;
+      border-radius: 50%;
+      background-image: url('/button-txt.png');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      animation: spinclockwise 20s linear infinite;
+    }
+
+    .btn__sparkle {
+      width: 5vh;
+      height: 5vh;
+      margin-top: 47vh;
+      margin-left: 47vh;
+      background-image: url('/stars.gif');
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 50%;
+    }
+
+.invisible{
+    opacity: 0;
+}
+
+.scaling{
+    transform: scale(0);
 }

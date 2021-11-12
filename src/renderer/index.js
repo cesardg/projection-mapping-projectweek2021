@@ -15,6 +15,17 @@ const $dis2 = document.querySelector(".dis2")
 const $dis3 = document.querySelector(".dis3")
 const $dis4 = document.querySelector(".dis4")
 
+let rotChange1 = 0;
+let rotChange2 = 0;
+let rotChange3 = 0;
+let rotChange4 = 0;
+const rotChangeTreshold = 3;
+
+let idle = true;
+let time = 0;
+let previousTime = 0;
+let timer = 0;
+
 const $button1 = document.querySelector(".button1")
 
   // Initial range
@@ -30,106 +41,79 @@ board.on("ready", () => {
     const potentiometer1 = new Sensor("A0");
     potentiometer1.on("change", () => {
         const {value, raw} = potentiometer1;
-        $rot1.textContent = value;
-        console.log("test")
-        document.querySelector(".img2-container").style.transform = `rotate(${value/2.84}deg)`;
+        if (Math.abs(rotChange1 - value) > rotChangeTreshold)
+        {
+            //$rot1.textContent = value;
+            document.querySelector(".img2-container").style.transform = `rotate(${value/2.84}deg)`;
+            console.log("ik krijg iets binnen")
+            previousTime = time;
+        }
+        rotChange1 = value;
     });
 
     const potentiometer2 = new Sensor("A2");
     potentiometer2.on("change", () => {
         const {value, raw} = potentiometer2;
-        $rot2.textContent = value;
-        document.querySelector(".img3-container").style.transform = `rotate(${value/2.84}deg)`;
+        if (Math.abs(rotChange2 - value) > rotChangeTreshold)
+        {
+            document.querySelector(".img3-container").style.transform = `rotate(${value/2.84}deg)`;
+            console.log("ik krijg iets binnen")
+            previousTime = time;
+        }
+        rotChange2 = value;
     });
 
     const potentiometer3 = new Sensor("A5");
     potentiometer3.on("change", () => {
         const {value, raw} = potentiometer3;
-        $rot3.textContent = value;
-        document.querySelector(".img4-container").style.transform = `rotate(${value/2.84}deg)`;
+        if (Math.abs(rotChange3 - value) > rotChangeTreshold)
+        {
+            document.querySelector(".img4-container").style.transform = `rotate(${value/2.84}deg)`;
+            console.log("ik krijg iets binnen")
+            previousTime = time;
+        }
+        rotChange3 = value;
     });
 
     const potentiometer4 = new Sensor("A4");
     potentiometer4.on("change", () => {
         const {value, raw} = potentiometer4;
-        $rot4.textContent = value;
-         document.querySelector(".img5-container").style.transform = `rotate(${value/2.84}deg)`;
+        if (Math.abs(rotChange4 - value) > rotChangeTreshold)
+        {
+            document.querySelector(".img5-container").style.transform = `rotate(${value/2.84}deg)`;
+            console.log("ik krijg iets binnen")
+            previousTime = time;
+        }
+        rotChange4 = value;
     });
 
-    // const proximity1 = new Proximity({controller: "HCSR04",pin: 7});
-    // proximity1.on("change", () => {
-    //     const { centimeters } = proximity1;
-    //     //console.log(centimeters);
-    //     const opacity = ostop - map(centimeters);
-    //     $dis1.textContent = centimeters;
-    //     if (centimeters < 1000){
-    //      //document.querySelector(".img1").style.opacity = opacity;
-    //      //console.log("de persoon is aanwezig")
-    //     } else {
-    //         //console.log("de persoon is weg")
-    //     }
-    // });
-
-    // const proximity2 = new Proximity({controller: "HCSR04",pin: 4});
-    // proximity2.on("change", () => {
-    //     const { centimeters } = proximity2;
-    //     //console.log(centimeters);
-    //     const opacity = ostop - map(centimeters);
-    //     $dis2.textContent = centimeters;
-    //     if (centimeters < 1000){
-    //      //document.querySelector(".img1").style.opacity = opacity;
-    //      //console.log("de persoon is aanwezig")
-    //     } else {
-    //        // console.log("de persoon is weg")
-    //     }
-    // });
-
-    // const proximity3 = new Proximity({controller: "HCSR04",pin: 8});
-    // proximity3.on("change", () => {
-    //     const { centimeters } = proximity3;
-    //     //console.log(centimeters);
-    //     const opacity = ostop - map(centimeters);
-    //     $dis3.textContent = centimeters;
-    //     if (centimeters < 1000){
-    //      //document.querySelector(".img1").style.opacity = opacity;
-    //     // console.log("de persoon is aanwezig")
-    //     } else {
-    //       //  console.log("de persoon is weg")
-    //     }
-    // });
-
-
-    // const proximity4 = new Proximity({controller: "HCSR04",pin: 12});
-    // proximity4.on("change", () => {
-    //     const { centimeters } = proximity4;
-    //    // console.log(centimeters);
-    //     const opacity = ostop - map(centimeters);
-    //     $dis4.textContent = centimeters;
-    //     if (centimeters < 1000){
-    //      //document.querySelector(".img1").style.opacity = opacity;
-    //     // console.log("de persoon is aanwezig")
-    //     } else {
-    //       //  console.log("de persoon is weg")
-    //     }
-    // });
-
+   
 
     
     const button = new Button(2);
 
     button.on("down", function() {
         console.log("down");
-        $button1.textContent = "yes"
+        //$button1.textContent = "yes"
         handlePushButton();
     });
-    
 
+    
 });
 
 
 
 const handlePushButton  = () => {
-    index ++;
+
+    console.log(`previousTime: ${previousTime}`);
+
+    previousTime = time;
+
+    if (idle){
+        awake()
+    } else {
+
+        index ++;
     index%=2;
 
     document.querySelector(`.img1`).classList.toggle(`flipped`);
@@ -176,20 +160,55 @@ const handlePushButton  = () => {
         }, 500);
     }, 800);
     
-
-
-
-   
-
+    }
 }
 
 document.addEventListener(`keyup`, handlePushButton);
 
-  const map = (value) => {
+const draw = ($time = 0) => {
+    requestAnimationFrame(draw);
+    time = Math.round($time/1000);
+    timer = time - previousTime;
+
+    if (timer > 8 && !idle){
+        hibernate();
+    }
+
+}
+
+const hibernate = () => {
+    idle =  true;
+    console.log(`kaat was hier`);
+   
+    if (document.querySelector(`.intro`).classList.contains(`invisible`)){
+                     console.log("hier? 2")
+        document.querySelector(`.intro`).classList.remove(`invisible`);
+        }
+    if (!document.querySelector(`.circles`).classList.contains(`scaling`)){
+                    console.log("hier? 3")
+        document.querySelector(`.circles`).classList.add(`scaling`);
+        }
+
+}
+
+const map = (value) => {
     if (value < istart) value = istart;
     if (value > istop) value = istop;
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
   };  
 
+const awake = () => {
+          if (!document.querySelector(`.intro`).classList.contains(`invisible`)){
+            document.querySelector(`.intro`).classList.add(`invisible`);
+        }
+        if (document.querySelector(`.circles`).classList.contains(`scaling`)){
+            document.querySelector(`.circles`).classList.remove(`scaling`);
+        }
+       
+        idle = false
+}
+
+
+draw();
 
 
