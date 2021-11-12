@@ -22,10 +22,7 @@ let rotChange4 = 0;
 const rotChangeTreshold = 3;
 
 let idle = true;
-let time = 0;
-let previousTime = 0;
-let timer = 0;
-const hibernateTime = 4;
+const hibernateTime = 30;
 let timer2 = 0;
 
 const $button1 = document.querySelector(".button1")
@@ -43,13 +40,14 @@ board.on("ready", () => {
     const potentiometer1 = new Sensor("A0");
     potentiometer1.on("change", () => {
         const {value, raw} = potentiometer1;
+         document.querySelector(".img2-container").style.transform = `rotate(${value/2.84}deg)`;
         if (Math.abs(rotChange1 - value) > rotChangeTreshold)
-        document.querySelector(".img2-container").style.transform = `rotate(${value/2.84}deg)`;
+       
         {
             //$rot1.textContent = value;
-            
+            if (idle) awake();
             console.log("ik krijg iets binnen")
-            previousTime = time;
+            timer2 = 0;
         }
         rotChange1 = value;
     });
@@ -57,12 +55,13 @@ board.on("ready", () => {
     const potentiometer2 = new Sensor("A2");
     potentiometer2.on("change", () => {
         const {value, raw} = potentiometer2;
+           document.querySelector(".img3-container").style.transform = `rotate(${value/2.84}deg)`;
         if (Math.abs(rotChange2 - value) > rotChangeTreshold)
-         document.querySelector(".img3-container").style.transform = `rotate(${value/2.84}deg)`;
+      
         {
-           
+            if (idle) awake();
             console.log("ik krijg iets binnen")
-            previousTime = time;
+            timer2 = 0;
         }
         rotChange2 = value;
     });
@@ -73,9 +72,9 @@ board.on("ready", () => {
         document.querySelector(".img4-container").style.transform = `rotate(${value/2.84}deg)`;
         if (Math.abs(rotChange3 - value) > rotChangeTreshold)
         {
-          
+            if (idle) awake();
             console.log("ik krijg iets binnen")
-            previousTime = time;
+           timer2 = 0;
         }
         rotChange3 = value;
     });
@@ -86,9 +85,9 @@ board.on("ready", () => {
          document.querySelector(".img5-container").style.transform = `rotate(${value/2.84}deg)`;
         if (Math.abs(rotChange4 - value) > rotChangeTreshold)
         {
-           
+           if (idle) awake();
             console.log("ik krijg iets binnen")
-            previousTime = time;
+            timer2 = 0;
         }
         rotChange4 = value;
     });
@@ -111,9 +110,9 @@ board.on("ready", () => {
 
 const handlePushButton  = () => {
 
-    console.log(`previousTime: ${previousTime}`);
+ 
 
-    previousTime = time;
+    timer2 = 0;
 
     if (idle){
         awake()
@@ -171,17 +170,6 @@ const handlePushButton  = () => {
 
 document.addEventListener(`keyup`, handlePushButton);
 
-const draw = ($time = 0) => {
-    //console.log($time);
-    requestAnimationFrame(draw);
-    time = Math.round($time/1000);
-    timer = time - previousTime;
-
-    if (timer > hibernateTime && !idle){
-        hibernate();
-    }
-
-}
 
 const hibernate = () => {
     idle =  true;
@@ -217,16 +205,20 @@ const awake = () => {
 }
 
 const test = () =>{
-function everyTime() {
-    console.log('each 1 second...');
-    timer2++;
-console.log(timer);
+    function everyTime() {
+        console.log('each 1 second...');
+        timer2++;
+        console.log(timer2);
+
+    if (timer2 > hibernateTime && !idle){
+        hibernate();
+    }
 }
 
-var myInterval = setInterval(everyTime, 1000);
+    var myInterval = setInterval(everyTime, 1000);
 }
 
 test();
-draw();
+
 
 

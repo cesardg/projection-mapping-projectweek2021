@@ -2,8 +2,8 @@
     height: 100vh;
     width: 100vh;
     display: grid;
-    margin: auto;
-    transform: scale(1.019);
+    /* margin: auto; */
+    transform: scale(1.015, 1.035) rotate(90deg);
     border-radius: 50%;
     overflow: hidden;
 }
@@ -12,6 +12,12 @@ body, html, p{
     margin: 0;
     padding: 0;
     background-color: black;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .stats{
@@ -114,29 +120,24 @@ img{
     }
 
     .knob01 {
-      margin: 0 auto;
-      align-self: flex-start;
+      margin-top: 0;
+      margin-left: 43.5vh;
     }
 
     .knob02 {
-      margin-top: 45vh;
+      margin-top: 44.2vh;
       margin-right: 0;
       margin-left: auto;
-      background-color: hotpink;
     }
 
     .knob03 {
       margin: 0 auto;
-      margin-bottom: .2rem;
       margin-left: 45.1vh;
       align-self: flex-end;
     }
 
     .knob04 {
-      margin-bottom: .5rem;
-      margin-left: .2rem;
-      margin-right: auto;
-      align-self: center;
+      margin-top: 44.7vh;
     }
 
     .btn__instruction {
@@ -155,8 +156,8 @@ img{
     .btn__sparkle {
       width: 5vh;
       height: 5vh;
-      margin-top: 47vh;
-      margin-left: 47vh;
+      margin-top: 47.5vh;
+      margin-left: 47.5vh;
       background-image: url('/stars.gif');
       background-size: 100%;
       background-repeat: no-repeat;
