@@ -119,10 +119,10 @@ img{
     }
 
     .knob02 {
-      margin-top: 44.5vh;
-      margin-right: .2rem;
+      margin-top: 45vh;
+      margin-right: 0;
       margin-left: auto;
-      align-self: flex-start;
+      background-color: hotpink;
     }
 
     .knob03 {
